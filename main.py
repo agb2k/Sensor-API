@@ -32,30 +32,77 @@ async def root():
 
 
 @app.get("/date/{month}/{date}")
-async def say_hello(month: str, date: str):
+async def get_by_date(month: str, date: str):
     df_return = df_groupby_day.get_group(f"{date}-{month}")
     result = df_return.to_json(orient="records", indent=4)
     return json.loads(result)
 
 
+# 07/02 -> 07/12
+@app.get("/date/{month}/{date}/stats")
+async def get_by_date_stats(month: str, date: str):
+    df_return = df_groupby_day.get_group(f"{date}-{month}")
+
+    temp = df_return['temperature']
+    hum = df_return['humidity']
+
+    minTemp = temp.min()
+    maxTemp = temp.max()
+    medianTemp = temp.median()
+    avgTemp = temp.mean()
+
+    minHum = hum.min()
+    maxHum = hum.max()
+    medianHum = hum.median()
+    avgHum = hum.mean()
+
+    stats = [['Minimum Temperature', minTemp],
+             ['Maximum Temperature', maxTemp],
+             ['Median Temperature', medianTemp],
+             ['Average Temperature', avgTemp],
+             ['Minimum Humidity', minHum],
+             ['Maximum Humidity', maxHum],
+             ['Median Temperature', medianHum],
+             ['Average Temperature', avgHum]]
+    df_final = pd.DataFrame(stats, columns=['Info', 'Value'])
+    df_json = df_final.to_json(orient="records", indent=4)
+
+    return json.loads(df_json)
+
+
 @app.get("/room/{num}")
-async def say_hello(num: str):
+async def get_by_room(num: str):
     df_return = df_groupby_room.get_group(f"roomArea{num}")
     result = df_return.to_json(orient="records", indent=4)
     return json.loads(result)
 
 
 @app.get("/room/{num}/stats")
-async def say_hello(num: str):
+async def get_by_room_stats(num: str):
     df_return = df_groupby_room.get_group(f"roomArea{num}")
-    minTemp = df_return['temperature'].min()
-    maxTemp = df_return['temperature'].max()
-    medianTemp = df_return['temperature'].median()
-    avgTemp = df_return['temperature'].mean()
 
-    minHum = df_return['Humidity'].min()
-    maxHum = df_return['Humidity'].max()
-    medianHum = df_return['Humidity'].median()
-    avgHum = df_return['Humidity'].mean()
+    temp = df_return['temperature']
+    hum = df_return['humidity']
 
-    return minTemp
+    minTemp = temp.min()
+    maxTemp = temp.max()
+    medianTemp = temp.median()
+    avgTemp = temp.mean()
+
+    minHum = hum.min()
+    maxHum = hum.max()
+    medianHum = hum.median()
+    avgHum = hum.mean()
+
+    stats = [['Minimum Temperature', minTemp],
+             ['Maximum Temperature', maxTemp],
+             ['Median Temperature', medianTemp],
+             ['Average Temperature', avgTemp],
+             ['Minimum Humidity', minHum],
+             ['Maximum Humidity', maxHum],
+             ['Median Temperature', medianHum],
+             ['Average Temperature', avgHum]]
+    df_final = pd.DataFrame(stats, columns=['Info', 'Value'])
+    df_json = df_final.to_json(orient="records", indent=4)
+
+    return json.loads(df_json)
