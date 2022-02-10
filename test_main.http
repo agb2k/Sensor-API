@@ -5,7 +5,22 @@ Accept: application/json
 
 ###
 
-GET http://127.0.0.1:8000/hello/User
+GET http://127.0.0.1:8000/date/07/02
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/date/07/02/stats
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/room/1
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/room/1/stats
 Accept: application/json
 
 ###

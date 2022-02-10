@@ -7,6 +7,8 @@ from datetime import datetime
 
 def timestamp_to_date(timestamp):
     dt_obj = datetime.fromtimestamp(int(str(timestamp)[0:10]))
+    print(timestamp)
+    print(dt_obj.strftime("%d-%m"))
     return dt_obj.strftime("%d-%m")
 
 
